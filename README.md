@@ -1,0 +1,1 @@
+RandomQuoteMachine-https://codepen.io/noobcoderr69/pen/yLqmoxE
