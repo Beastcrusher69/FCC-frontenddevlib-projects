@@ -1,50 +1,52 @@
 import React from "https://cdn.skypack.dev/react@17.0.1";
 import ReactDOM from "https://cdn.skypack.dev/react-dom@17.0.1";
 
-class EditorWrapper extends React.Component{
+class EditorandPreview extends React.Component{
   constructor(props){
     super(props);
+    
+    this.state={
+      text:""
+    }
+    
+    this.handleChange = this.handleChange.bind(this);
   }
   
+  handleChange(event){
+    this.setState({
+      text:event.target.value
+  });
+ }
+ 
   render(){
-    return(
-      <div id="editor-wrapper">
-        <div className="toolbar"></div>
-        <textarea id="editor"></textarea>
-      </div>
-    );
-  }
-}
-
-class PreviewWrapper extends React.Component{
-  constructor(props){
-    super(props);
-  }
-  
-  render(){
-    return(
-      <div id="preview-wrapper">
-        <div className="toolbar"></div>
-        <div id="preview">
-        </div>
-      </div>
-    );
-  }
-}
-
-class App extends React.Component{
-  constructor(props){
-    super(props);
-  }
-  
-  render(){
+    const { text } = this.state;
+    
+    const markdown=marked.parse(text);
     return(
       <div id="app">
-        <EditorWrapper/>
-        <PreviewWrapper/>
+      <div id="editor-wrapper">
+        <div className="toolbar">Editor</div>
+        <textarea id="editor" onChange={this.handleChange}>
+          # this is h1 
+          ## this is h2
+          [a link](www.facebook.com)
+          - list item
+          &gt; block quote
+          `inline code`
+          ```
+          multiline code
+          ```
+          **bold**
+          ![alternate text](https://cdn.freecodecamp.org/testable-projects-fcc/images/fcc_secondary.svg)</textarea>
       </div>
+      
+      <div id="preview-wrapper">
+        <div className="toolbar"></div>
+        <div id="preview" dangerouslySetInnerHTML={{ __html : markdown}}></div>
+      </div>
+       </div> 
     );
   }
 }
 
-ReactDOM.render(<App/>,document.getElementById('target'));
+ReactDOM.render(<EditorandPreview/>,document.getElementById('target'));
